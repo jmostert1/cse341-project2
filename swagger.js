@@ -5,8 +5,8 @@ const doc = {
     title: 'My API',
     description: 'Friends and Students API'
   },
-  host: 'localhost:3000',
-  schemes: ['http']
+  host: 'https://cse341-project1-6rmg.onrender.com',
+  schemes: ['https']
 };
 
 const outputFile = './swagger.json';
