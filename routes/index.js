@@ -16,7 +16,20 @@ const controller = require('../controllers');
 // DELETE route
 //router.delete('/contacts/:id', controller.deleteContact);
 
+//login/logout routes
+router.get('/login', passport.authenticate('github'), (req, res) => {});
+
+router.get('/logout', function(req, res, next) {
+  req.logout(function(err) {
+    if (err) { return next(err); }
+    res.redirect('/');
+  });
+});
+
 router.use('/friends', require('./friends'));
 router.use('/students', require('./students'));
+
+
+
 
 module.exports = router;
