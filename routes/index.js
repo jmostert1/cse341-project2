@@ -1,20 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const controller = require('../controllers');
+const passport = require('passport');
 
-// GET routes
-
-//router.get('/contacts', controller.getAll);
-//router.get('/contacts/:id', controller.getSingle);
-
-// POST routes
-//router.post('/contacts', controller.createContact);
-
-// PUT route (update)
-//router.put('/contacts/:id', controller.updateContact);
-
-// DELETE route
-//router.delete('/contacts/:id', controller.deleteContact);
+router.get('/', (req, res) => { 
+  res.send(req.session.user !== undefined ? `Logged in as ${req.session.user.displayName}` : "Logged Out")
+});
 
 //login/logout routes
 router.get('/login', passport.authenticate('github'), (req, res) => {});
@@ -24,6 +14,15 @@ router.get('/logout', function(req, res, next) {
     if (err) { return next(err); }
     res.redirect('/');
   });
+});
+
+router.get('/github/callback', passport.authenticate('github', { 
+  failureRedirect: '/api-docs', 
+  session: false
+}),
+(req, res) => {
+  req.session.user = req.user;
+  res.redirect('/');
 });
 
 router.use('/friends', require('./friends'));
